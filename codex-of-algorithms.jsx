@@ -27,6 +27,10 @@ import {
   HelpCircle
 } from "lucide-react";
 
+// Vite injects BASE_URL from the `base` config (e.g. "/Codex-of-Algorithms/").
+// Strip trailing slash so we can write `${BASE}/assets/...` consistently.
+const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -206,7 +210,7 @@ const CHAPTERS = [
       ),
     ],
   bg: "from-amber-100 to-emerald-100",
-  portrait: `url('/assets/images/house-of-wisdom-inside-background.png')`,
+  portrait: `url('${BASE}/assets/images/house-of-wisdom-inside-background.png')`,
   },
   {
     id: "ch2", 
@@ -567,13 +571,11 @@ function assetCandidates(card){
   };
   const explicit = mapById[card.id];
   if (explicit) {
-    out.push(`/assets/images/${explicit}`);
-    out.push(`/dist/assets/images/${explicit}`);
+    out.push(`${BASE}/assets/images/${explicit}`);
   }
   for(const base of ids){
     for(const ext of exts){
-      out.push(`/assets/images/${base}.${ext}`); // public assets (dev)
-      out.push(`/dist/assets/images/${base}.${ext}`); // built assets (existing)
+      out.push(`${BASE}/assets/images/${base}.${ext}`);
     }
   }
   // Add a few known files you mentioned
@@ -607,7 +609,7 @@ function assetCandidates(card){
     'Translation to Latin.png'
   ];
   known.forEach((k)=>{
-    out.push(`/dist/assets/images/${k}`);
+    out.push(`${BASE}/assets/images/${k}`);
   });
   return out;
 }
@@ -1450,14 +1452,14 @@ export default function CodexAlgo() {
     // Build intro/backstory cutscene queue for Chapter 1
     if (ch.id === 'ch1') {
       const full = [
-  { title: 'Backstory — The Codex Paradox', big:true, text: 'In Neo‑Cairo, two desperate researchers — Amina and Rashid — uncover fragments of a mythical Codex of Algorithms. In their reality it was never completed; a temporal fracture erased it centuries ago. Without its guiding principles, AI went rogue, systems collapsed, and an apocalypse looms. Forbidden research reveals an alternate reality where the Codex survived from 9th‑century Baghdad to today, shaping a stable world. A rift now entangles both timelines. Their world is beyond saving, but if they can protect the Codex in that other timeline, humanity there may endure. They power a chrono‑gate and step through, knowing every action may ripple through time.', backdrop: `url('/assets/images/Cyborgs et néons dans la ville.png')` },
-  { title: 'Paradox Triggered', big:true, text: 'Their interference reveals a rift: the timelines are entangled. Collapse begins to ripple through systems their world depends on.', backdrop: `url('/assets/images/neo-cairo collapse.png')` },
-  { title: 'No Saving Our World', big:true, text: 'It is too late to halt the cascade. One hope remains: protect the Codex in the alternate timeline so at least that reality survives.', backdrop: `url('/assets/images/apocalypse.png')` },
-  { title: 'Activating the Chrono‑Gate', big:true, text: 'They gather stolen tech and power up a shimmering portal, knowing every action will ripple through time.', backdrop: `url('/assets/images/Activating the chrono-gate.png')` },
-  { title: 'Through the Rift', big:true, text: 'They step into the current and are pulled toward the 9th century.', backdrop: `url('/assets/images/Time travel.png')` },
-  { title: 'Arrival in the Heart of Civilization', big:true, text: 'A terrace above the Tigris. Lanterns glow; markets bustle. They blend in and set a course for the House of Wisdom.', backdrop: `url('/assets/images/arrival_tigris_baghdad.png')` },
-  { title: 'Approach the House of Wisdom', text: 'Bayt al‑Hikma stands ahead. Inside, manuscripts on astronomy, medicine, and mathematics line the halls; debates swirl in many tongues.', backdrop: `url('/assets/images/house-of-wisdom-outisde-background.png')` },
-  { title: 'Inside Bayt al‑Hikma', text: 'Within, they glimpse Al‑Khwarizmi at work—drafting ideas that will define algorithms. Somewhere in these archives, the Codex awaits.', backdrop: `url('/assets/images/house-of-wisdom-inside-background.png')` },
+  { title: 'Backstory — The Codex Paradox', big:true, text: 'In Neo‑Cairo, two desperate researchers — Amina and Rashid — uncover fragments of a mythical Codex of Algorithms. In their reality it was never completed; a temporal fracture erased it centuries ago. Without its guiding principles, AI went rogue, systems collapsed, and an apocalypse looms. Forbidden research reveals an alternate reality where the Codex survived from 9th‑century Baghdad to today, shaping a stable world. A rift now entangles both timelines. Their world is beyond saving, but if they can protect the Codex in that other timeline, humanity there may endure. They power a chrono‑gate and step through, knowing every action may ripple through time.', backdrop: `url('${BASE}/assets/images/Cyborgs et néons dans la ville.png')` },
+  { title: 'Paradox Triggered', big:true, text: 'Their interference reveals a rift: the timelines are entangled. Collapse begins to ripple through systems their world depends on.', backdrop: `url('${BASE}/assets/images/neo-cairo collapse.png')` },
+  { title: 'No Saving Our World', big:true, text: 'It is too late to halt the cascade. One hope remains: protect the Codex in the alternate timeline so at least that reality survives.', backdrop: `url('${BASE}/assets/images/apocalypse.png')` },
+  { title: 'Activating the Chrono‑Gate', big:true, text: 'They gather stolen tech and power up a shimmering portal, knowing every action will ripple through time.', backdrop: `url('${BASE}/assets/images/Activating the chrono-gate.png')` },
+  { title: 'Through the Rift', big:true, text: 'They step into the current and are pulled toward the 9th century.', backdrop: `url('${BASE}/assets/images/Time travel.png')` },
+  { title: 'Arrival in the Heart of Civilization', big:true, text: 'A terrace above the Tigris. Lanterns glow; markets bustle. They blend in and set a course for the House of Wisdom.', backdrop: `url('${BASE}/assets/images/arrival_tigris_baghdad.png')` },
+  { title: 'Approach the House of Wisdom', text: 'Bayt al‑Hikma stands ahead. Inside, manuscripts on astronomy, medicine, and mathematics line the halls; debates swirl in many tongues.', backdrop: `url('${BASE}/assets/images/house-of-wisdom-outisde-background.png')` },
+  { title: 'Inside Bayt al‑Hikma', text: 'Within, they glimpse Al‑Khwarizmi at work—drafting ideas that will define algorithms. Somewhere in these archives, the Codex awaits.', backdrop: `url('${BASE}/assets/images/house-of-wisdom-inside-background.png')` },
       ];
       const throughIdx = Math.max(0, full.findIndex(s => /Through the Rift/i.test(s.title)));
       const arrivalIdx = Math.max(0, full.findIndex(s => /Arrival/i.test(s.title)));
@@ -1587,7 +1589,7 @@ export default function CodexAlgo() {
     if (chapterComplete || progress >= 100) {
       if (chapterIdx < CHAPTERS.length - 1) {
         if (chapter.id === 'ch1') {
-          setCutscene({ title: `${chapter.title} — Complete`, text: `Your Codex pages are secured. Next: ${CHAPTERS[chapterIdx + 1].title}.`, backdrop: `url('/assets/images/baghdad_success_transition.png')`, action: 'next-chapter' });
+          setCutscene({ title: `${chapter.title} — Complete`, text: `Your Codex pages are secured. Next: ${CHAPTERS[chapterIdx + 1].title}.`, backdrop: `url('${BASE}/assets/images/baghdad_success_transition.png')`, action: 'next-chapter' });
         } else {
           setCutscene({ title: `${chapter.title} — Complete`, text: `Your Codex pages are secured. Next: ${CHAPTERS[chapterIdx + 1].title}.`, backdrop: CHAPTERS[chapterIdx + 1].portrait, action: 'next-chapter' });
         }
@@ -1601,7 +1603,7 @@ export default function CodexAlgo() {
   useEffect(() => {
     if (paradox >= 100) {
       // Failure state for Chapter 1
-      setCutscene({ title: 'Paradox Collapse', text: 'The invasion comes too soon. Baghdad falls; the Codex is lost. The timeline buckles.', backdrop: `url('/assets/images/baghdad_failure_invasion.png')`, action: 'restart-chapter' });
+      setCutscene({ title: 'Paradox Collapse', text: 'The invasion comes too soon. Baghdad falls; the Codex is lost. The timeline buckles.', backdrop: `url('${BASE}/assets/images/baghdad_failure_invasion.png')`, action: 'restart-chapter' });
       // Also show a major flash
       setParadoxFlash('major');
       const t = setTimeout(() => setParadoxFlash(null), 800);
@@ -1904,9 +1906,9 @@ export default function CodexAlgo() {
   <div className="relative">
     {challenge && chapter.id==='ch1' && (
       <div className="pointer-events-none fixed inset-0 -z-10 opacity-40" style={{ backgroundImage:
-        challenge.id==='quiz-ch1' ? `url('/assets/images/bazaar_quiz_challenge.png')` :
-        challenge.meta?.kind==='drag' ? `url('/assets/images/baghdad_challenge_riddle_trade.png')` :
-        `url('/assets/images/baghdad_merchant_negotiation.png')`, backgroundSize:'cover', backgroundPosition:'center' }} />
+        challenge.id==='quiz-ch1' ? `url('${BASE}/assets/images/bazaar_quiz_challenge.png')` :
+        challenge.meta?.kind==='drag' ? `url('${BASE}/assets/images/baghdad_challenge_riddle_trade.png')` :
+        `url('${BASE}/assets/images/baghdad_merchant_negotiation.png')`, backgroundSize:'cover', backgroundPosition:'center' }} />
     )}
     <ChallengeModal open={!!challenge} card={challenge} onResolve={resolveChallenge} difficulty={settings.difficulty} onWrong={(amt, stage) => {
       if(chapter.id!=='ch1') { bumpParadox(amt ?? 4); return; }
@@ -1914,9 +1916,9 @@ export default function CodexAlgo() {
       bumpParadox(amt ?? 4);
       if (settings.difficulty==='Easy') {
         if (stage === 'first') {
-          setPopup({ title: 'Whispers of 1258', text: 'Rumors of a siege arrive too soon. History feels… off.', backdrop: `url('/assets/images/house-of-wisdom-inside-background.png')` });
+          setPopup({ title: 'Whispers of 1258', text: 'Rumors of a siege arrive too soon. History feels… off.', backdrop: `url('${BASE}/assets/images/house-of-wisdom-inside-background.png')` });
         } else if (stage === 'second') {
-          setPopup({ title: 'Paradox Ripple', text: 'Neon ripples flicker over the skyline. The timeline strains.', backdrop: `url('/assets/images/baghdad_paradox_skyline.png')` });
+          setPopup({ title: 'Paradox Ripple', text: 'Neon ripples flicker over the skyline. The timeline strains.', backdrop: `url('${BASE}/assets/images/baghdad_paradox_skyline.png')` });
         }
       }
     }} />
@@ -1924,7 +1926,7 @@ export default function CodexAlgo() {
   {/* Paradox visual overlays */}
   {paradoxFlash && chapter.id==='ch1' && (
     <div className="pointer-events-none fixed inset-0 z-40" style={{
-      backgroundImage: paradoxFlash==='major' ? `url('/assets/images/baghdad_warning_invasion.png')` : `url('/assets/images/baghdad_paradox_skyline.png')`,
+      backgroundImage: paradoxFlash==='major' ? `url('${BASE}/assets/images/baghdad_warning_invasion.png')` : `url('${BASE}/assets/images/baghdad_paradox_skyline.png')`,
       backgroundSize: 'cover', backgroundPosition: 'center', opacity: paradoxFlash==='major'?0.35:0.25,
       mixBlendMode: 'screen'
     }} />
