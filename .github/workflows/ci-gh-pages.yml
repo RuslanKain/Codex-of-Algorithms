@@ -1,0 +1,37 @@
+name: CI Build, Test, and Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./
+
+      - name: Build
+        run: npm run build
+        working-directory: ./
+
+      - name: Run Playwright tests
+        uses: microsoft/playwright-github-action@v1
+        with:
+          install-deps: true
+          run: "npx playwright test --reporter=list"
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
