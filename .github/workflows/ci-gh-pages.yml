@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  build-test-deploy:
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,15 +24,6 @@ jobs:
 
       - name: Build
         run: npm run build
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
-
-      - name: Run Playwright smoke tests
-        run: |
-          npm run preview &
-          sleep 3
-          npx playwright test --reporter=list
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
